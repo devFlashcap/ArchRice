@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd "$(dirname "$0")"
+
 read -p 'Timezone (Region/City): ' timezone
 read -p 'Hostname: ' hostname
 locale='en_US.UTF-8'
