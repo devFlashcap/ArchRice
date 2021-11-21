@@ -2,7 +2,7 @@
 
 while IFS=; read -r package service autostart; do
 	pacman -S $package
-	if [ $autostart -eq "true" ]
+	if [ $autostart == "true" ]
 	then
 		systemctl enable $service
 	fi

@@ -7,7 +7,7 @@ read -p 'Hostname: ' hostname
 locale='en_US.UTF-8'
 
 sed -e "s/#${locale}/${locale}/" /etc/locale.gen
-locale.gen
+locale-gen
 echo "LANG=${locale}" > /etc/locale.conf
 echo $hostname > /etc/hostname
 passwd

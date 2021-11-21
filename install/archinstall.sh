@@ -42,7 +42,7 @@ mkdir -p /mnt/boot/efi
 mount $partition_efi /mnt/boot/efi
 
 pacman -S reflector
-reflector --latest 20 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+reflector --latest 20 --protocol https --country 'Hungary' --verbose --sort rate --save /etc/pacman.d/mirrorlist
 
 pacstrap /mnt base base-devel linux linux-firmware vim git
 genfstab -U /mnt >> /mnt/etc/fstab
