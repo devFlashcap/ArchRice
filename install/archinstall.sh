@@ -43,6 +43,6 @@ mount $partition_efi /mnt/boot/efi
 
 pacstrap /mnt base base-devel linux linux-firmware vim git
 genfstab -U /mnt >> /mnt/etc/fstab
-mkdir /mnt/install
-mv . /mnt/install
-arch-chroot /mnt
+mkdir /mnt/archrice
+mv . /mnt/archrice
+arch-chroot /mnt /mnt/archrice/install/archpostinstall.sh
