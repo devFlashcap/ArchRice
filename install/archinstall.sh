@@ -1,9 +1,9 @@
 #!/bin/bash
 
+echo "Partitioning disk -------------------------------------------------------"
 read -p 'Device: ' partition_device
 read -p 'EFI System partition size: ' partition_efi_size
 read -p 'SWAP partition size: ' partition_swap_size
-
 timedatectl set-ntp true
 sed -e 's/\s*\([\+0-9a-zA-Z]*\).*/\1/' << FDISK_CMDS | fdisk $partition_device
 g			# create GPT table
@@ -27,7 +27,6 @@ t			# select partition type
 19			# select partition type Linux Swap
 w			# write changes to disk
 FDISK_CMDS
-
 partition_efi="${partition_device}1"
 partition_swap="${partition_device}2"
 partition_root="${partition_device}3"
@@ -37,15 +36,17 @@ mkswap $partition_swap
 swapon $partition_swap
 mkfs.ext4 $partition_root
 
+echo "Mounting partitions -------------------------------------------------------"
 mount $partition_root /mnt
 mkdir -p /mnt/boot/efi
 mount $partition_efi /mnt/boot/efi
 
+echo "Updating mirrorlist -------------------------------------------------------"
+read -p 'Country: ' country
 pacman -S reflector
-reflector --latest 20 --protocol https --country 'Hungary' --verbose --sort rate --save /etc/pacman.d/mirrorlist
+reflector --latest 20 --protocol https --country $country --verbose --sort rate --save /etc/pacman.d/mirrorlist
 
+echo "Installing the system -----------------------------------------------------"
 pacstrap /mnt base base-devel linux linux-firmware vim git
 genfstab -U /mnt >> /mnt/etc/fstab
-mkdir /mnt/archrice
-mv . /mnt/archrice
-arch-chroot /mnt /mnt/archrice/install/archpostinstall.sh
+arch-chroot /mnt
