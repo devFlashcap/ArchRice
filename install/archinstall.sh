@@ -43,4 +43,6 @@ mount $partition_efi /mnt/boot/efi
 
 pacstrap /mnt base base-devel linux linux-firmware vim git
 genfstab -U /mnt >> /mnt/etc/fstab
-arch-chroot
+mkdir /mnt/install
+mv . /mnt/install
+arch-chroot /mnt
